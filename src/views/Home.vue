@@ -21,15 +21,10 @@
 </template>
 
 <script>
-    // @ is an alias to /src
-    // import HelloWorld from '@/components/HelloWorld.vue'
     const ENDPOINT = 'https://jsonplaceholder.typicode.com'
 
     export default {
         name: 'home',
-        // components: {
-        //   HelloWorld
-        // }
         data() {
             return {
                 media: []

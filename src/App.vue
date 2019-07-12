@@ -10,7 +10,6 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-item to="/">Home</b-nav-item>
-              <b-nav-item to="/about" disabled>About</b-nav-item>
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
