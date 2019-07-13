@@ -1,5 +1,7 @@
 # s-one-demo
 
+View live at [s-one-demo.zelleke.com](http://s-one-demo.zelleke.com).
+
 ## Project setup
 ```
 npm install
