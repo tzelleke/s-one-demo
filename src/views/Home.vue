@@ -21,19 +21,17 @@
 </template>
 
 <script>
-    const ENDPOINT = 'https://jsonplaceholder.typicode.com'
+    import {mapState} from 'vuex'
 
     export default {
         name: 'home',
-        data() {
-            return {
-                media: []
-            }
+        computed: {
+            ...mapState({
+                media: 'media'
+            })
         },
-        created() {
-            this.$http.get(ENDPOINT + '/photos')
-                .then(({data}) => this.media = data.slice(0, 20))
-                .then(console.log)
+        mounted() {
+            this.$store.dispatch('getMedia')
         }
     }
 </script>
