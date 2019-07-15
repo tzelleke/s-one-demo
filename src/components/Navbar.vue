@@ -1,7 +1,7 @@
 <template>
-  <div id="nav">
+  <div id="nav" class="sticky-top">
 
-    <b-navbar toggleable="md">
+    <b-navbar type="dark" variant="dark">
       <div class="container">
         <b-navbar-brand to="/" class="mr-3">S-one Demo App</b-navbar-brand>
 

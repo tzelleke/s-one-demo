@@ -1,23 +1,25 @@
 <template>
-  <div class="home">
+  <div class="media-repository py-5">
     <div class="container">
 
-      <div class="d-flex mb-3">
-        <h2>{{nMedia}} Titles:</h2>
+      <div class="d-sm-flex mb-3">
+        <h2 class="text-center">{{nMedia}} Titles:</h2>
 
         <b-pagination class="ml-auto"
                       v-if="nMedia > 0"
                       v-model="currentPage"
                       :total-rows="nMedia"
                       :per-page="pageSize"
+                      size="sm"
+                      align="center"
         ></b-pagination>
       </div>
 
-      <div class="row no-gutters">
+      <div class="row no-gutters border border-dark">
         <b-col cols="6" sm="4" md="3"
                v-for="item in currentMedia" :key="item.id"
         >
-          <b-card class="bg-secondary text-white h-100"
+          <b-card class="h-100"
                   :title="item.title"
                   :img-src="item.thumbnailUrl"
                   img-top
@@ -26,18 +28,34 @@
         </b-col>
       </div>
 
-      <div class="d-flex mt-3">
+      <div class="d-sm-flex mt-3">
         <b-pagination class="ml-auto"
                       v-if="nMedia > 0"
                       v-model="currentPage"
                       :total-rows="nMedia"
                       :per-page="pageSize"
+                      size="sm"
+                      align="center"
         ></b-pagination>
       </div>
 
     </div>
   </div>
 </template>
+
+<style lang="scss">
+  .media-repository {
+    .card-title {
+      text-transform: capitalize;
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+
+    .card-body {
+      padding: .75rem;
+    }
+  }
+</style>
 
 <script>
     import {mapState} from 'vuex'
