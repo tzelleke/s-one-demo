@@ -8,20 +8,21 @@ const ENDPOINT = 'https://jsonplaceholder.typicode.com'
 
 export default new Vuex.Store({
     state: {
-        media: []
+        media: [],
+        nMedia: 0
     },
     mutations: {
         seedMedia(state, mediaItems) {
             state.media = mediaItems
+            state.nMedia = mediaItems.length
         }
     },
     actions: {
         getMedia(context) {
             axios.get(ENDPOINT + '/photos')
                 .then(response => {
-                    const data = response.data.slice(0, 20)
-                    context.commit('seedMedia', data)
-                    return data
+                    context.commit('seedMedia', response.data)
+                    return response.data.slice(0, 20)
                 })
                 .then(console.log)
         }
