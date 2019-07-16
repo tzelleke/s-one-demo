@@ -1,20 +1,37 @@
 import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {filter, keyBy, map, random, set, sortBy} from 'lodash'
 
 Vue.use(Vuex)
 
 const ENDPOINT = 'https://jsonplaceholder.typicode.com'
 
+const IN_STORE = 'IN_STORE'
+const IN_RENT = 'IN_RENT'
+
 export default new Vuex.Store({
     state: {
-        media: [],
-        nMedia: 0
+        media: {}
+    },
+    getters: {
+        allMedia(state) {
+            return sortBy(state.media, 'id')
+        },
+        inStoreMedia(state, getters) {
+            return filter(getters.allMedia, {status: IN_STORE})
+        },
+        inRentMedia(state, getters) {
+            return filter(getters.allMedia, {status: IN_RENT})
+        }
     },
     mutations: {
         seedMedia(state, mediaItems) {
-            state.media = mediaItems
-            state.nMedia = mediaItems.length
+            let randomStatus = () => random(1,5) === 5 ? IN_RENT : IN_STORE
+            state.media = keyBy(
+                map(mediaItems, item => set(item, 'status', randomStatus())),
+                'id'
+            )
         }
     },
     actions: {

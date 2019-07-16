@@ -1,15 +1,27 @@
 <template>
-  <div class="media-repository py-5">
+  <div class="media-repository py-3 py-md-5">
     <div class="container">
 
-      <div class="d-sm-flex mb-3">
-        <h2 class="text-center">{{nMedia}} Titles:</h2>
+      <b-form-group>
+        <b-form-radio-group
+            v-model="selectedMediaSet"
+            :options="mediaSetOptions"
+            buttons
+            button-variant="outline-primary"
+            size="sm"
+            @change="currentPage = 1"
+        ></b-form-radio-group>
+      </b-form-group>
+
+      <div class="d-flex align-items-center mb-3">
+
+        <h4 class="h6">{{currentMedia.length}} Titles:</h4>
 
         <b-pagination class="ml-auto"
-                      v-if="nMedia > 0"
+                      v-if="currentMedia.length > 0"
                       v-model="currentPage"
-                      :total-rows="nMedia"
-                      :per-page="pageSize"
+                      :total-rows="currentMedia.length"
+                      :per-page="perPage"
                       size="sm"
                       align="center"
         ></b-pagination>
@@ -17,7 +29,7 @@
 
       <div class="row no-gutters border border-dark">
         <b-col cols="6" sm="4" md="3"
-               v-for="item in currentMedia" :key="item.id"
+               v-for="item in pageMedia" :key="item.id"
         >
           <b-card class="h-100"
                   :title="item.title"
@@ -30,10 +42,10 @@
 
       <div class="d-sm-flex mt-3">
         <b-pagination class="ml-auto"
-                      v-if="nMedia > 0"
+                      v-if="currentMedia.length > 0"
                       v-model="currentPage"
-                      :total-rows="nMedia"
-                      :per-page="pageSize"
+                      :total-rows="currentMedia.length"
+                      :per-page="perPage"
                       size="sm"
                       align="center"
         ></b-pagination>
@@ -58,7 +70,7 @@
 </style>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     const PAGE_SIZE = 12
 
@@ -66,20 +78,30 @@
         name: 'media-repository',
         data() {
             return {
-                pageSize: PAGE_SIZE,
-                currentPage: 1
+                perPage: PAGE_SIZE,
+                currentPage: 1,
+                selectedMediaSet: 'allMedia',
+                mediaSetOptions: [
+                    {text: 'All', value: 'allMedia'},
+                    {text: 'In store', value: 'inStoreMedia'},
+                    {text: 'In rent', value: 'inRentMedia'}
+                ]
             }
         },
         computed: {
             currentMedia() {
+                return this[this.selectedMediaSet]
+            },
+            pageMedia() {
                 const e = this.currentPage * PAGE_SIZE
                 const s = e - PAGE_SIZE
-                return this.media.slice(s, e)
+                return this.currentMedia.slice(s, e)
             },
-            ...mapState({
-                media: 'media',
-                nMedia: 'nMedia'
-            })
+            ...mapGetters([
+                'allMedia',
+                'inStoreMedia',
+                'inRentMedia'
+            ])
         },
         mounted() {
             this.$store.dispatch('getMedia')
