@@ -32,6 +32,21 @@ export default new Vuex.Store({
                 map(mediaItems, item => set(item, 'status', randomStatus())),
                 'id'
             )
+        },
+        rentMedia(state, id) {
+            console.log(id)
+            const item = this.state.media[id]
+            item.status = IN_RENT
+            this.commit('updateMedia', item)
+        },
+        returnMedia(state, id) {
+            console.log(id)
+            const item = this.state.media[id]
+            item.status = IN_STORE
+            this.commit('updateMedia', item)
+        },
+        updateMedia(state, mediaItem) {
+            this.state.media[mediaItem.id] = mediaItem
         }
     },
     actions: {

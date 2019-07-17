@@ -36,6 +36,20 @@
                   :img-src="item.thumbnailUrl"
                   img-top
           >
+            <div class="text-right" slot="footer">
+              <b-link href="#"
+                      v-if="item.status == 'IN_STORE'"
+                      @click.prevent="rentMedia(item.id)"
+              >
+                Rent out
+              </b-link>
+              <b-link href="#"
+                      v-if="item.status == 'IN_RENT'"
+                      @click.prevent="returnMedia(item.id)"
+              >
+                Return
+              </b-link>
+            </div>
           </b-card>
         </b-col>
       </div>
@@ -70,7 +84,7 @@
 </style>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapMutations} from 'vuex'
 
     const PAGE_SIZE = 12
 
@@ -101,6 +115,12 @@
                 'allMedia',
                 'inStoreMedia',
                 'inRentMedia'
+            ])
+        },
+        methods: {
+            ...mapMutations([
+                'rentMedia',
+                'returnMedia'
             ])
         },
         mounted() {
